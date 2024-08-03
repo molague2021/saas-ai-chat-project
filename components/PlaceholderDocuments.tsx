@@ -1,7 +1,8 @@
-'use-client';
+'use client';
+
 import { PlusCircleIcon } from 'lucide-react';
 import { Button } from './ui/button';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const PlaceholderDocuments = () => {
   const router = useRouter();
