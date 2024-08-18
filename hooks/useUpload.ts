@@ -7,6 +7,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { generateEmbedding } from '../actions/generateEmbedding';
 
 export enum StatusText {
   UPLOADING = 'Uploading file...',
@@ -68,6 +69,10 @@ const useUpload = () => {
         });
 
         setStatus(StatusText.GENERATING);
+
+        // Generate AI Embeddings...
+        // Commenting out code until we can add credits to chatGpt
+        // await generateEmbedding(fileIdToUploadTo);
 
         setFileId(fileIdToUploadTo);
       }
