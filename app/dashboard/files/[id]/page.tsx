@@ -1,5 +1,6 @@
 import PdfView from '../../../../components/PdfView';
 import { adminDb } from '../../../../firebaseAdmin';
+import { Chat } from '../../../../components/Chat';
 import { auth } from '@clerk/nextjs/server';
 
 const ChatToFilePage = async ({
@@ -24,6 +25,7 @@ const ChatToFilePage = async ({
       {/** Right Section */}
       <div className="col-span-5 lg:col-span-2 overflow-y-auto">
         {/** Chat */}
+        <Chat id={id} />
       </div>
       {/** Left Section */}
       <div className="col-span-5 lg:col-span-3 bg-gray-100 border-r-2 lg:border-indigo-600 lg:-order-1 overflow-auto">
