@@ -2,6 +2,7 @@
 
 import { Message } from '../components/Chat';
 import { adminDb } from '@/firebaseAdmin';
+import { generateLangchainCompletion } from '../lib/langchain';
 import { auth } from '@clerk/nextjs/server';
 
 const FREE_LIMIT = 3;
