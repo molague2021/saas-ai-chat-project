@@ -9,6 +9,7 @@ import { useUser } from '@clerk/nextjs';
 import { collection, orderBy, query } from 'firebase/firestore';
 import { db } from '../firebase';
 import { askQuestions } from '../actions/askQuestions';
+import { ChatMessage } from './ChatMessage';
 
 type RoleType = 'human' | 'ai' | 'placeholder';
 
@@ -25,6 +26,13 @@ export const Chat = ({ id }: { id: string }) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [isPending, startTransition] = useTransition();
+  const bottomOfChatRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomOfChatRef.current?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  }, [messages]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -107,11 +115,30 @@ export const Chat = ({ id }: { id: string }) => {
       {/** Chat Contents */}
       <div className="flex-1 w-full">
         {/** chat messages... */}
-        {messages.map((message) => (
-          <div key={message.id}>
-            <p>{message.message}</p>
+        {loading ? (
+          <div className="flex items-denter justify-center">
+            <Loader2Icon className="animate-spin h-20 w-20 text-indigo-600 mt-20" />
           </div>
-        ))}
+        ) : (
+          <div className="p-5">
+            {messages.length === 0 && (
+              <ChatMessage
+                key={'placeholder'}
+                message={{
+                  role: 'ai',
+                  message: 'Ask me anything about the document',
+                  createdAt: new Date(),
+                }}
+              />
+            )}
+
+            {messages.map((message, index) => (
+              <ChatMessage key={index} message={message} />
+            ))}
+
+            <div ref={bottomOfChatRef} />
+          </div>
+        )}
       </div>
       <form
         onSubmit={handleSubmit}
